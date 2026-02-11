@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { contactInfo } from '../../../i18n/translations';
+---
+
+<BaseLayout
+  title="Contact – SoMICE Sàrl"
+  description="Contact SoMICE Sàrl in Lausanne. Phone, email and address for your event organisation."
+>
+  <article>
+    <h1>Contact us</h1>
+    <p>
+      <strong>SoMICE Sàrl</strong><br />
+      {contactInfo.address}
+    </p>
+    <p>
+      T. <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}>{contactInfo.phone}</a>
+    </p>
+    <p>
+      Email: <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a><br />
+      Suppliers: <a href={`mailto:${contactInfo.emailSuppliers}`}>{contactInfo.emailSuppliers}</a>
+    </p>
+    <p>
+      We look forward to hearing from you.
+    </p>
+  </article>
+</BaseLayout>

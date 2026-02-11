@@ -1,0 +1,129 @@
+---
+import type { Locale } from '../i18n/translations';
+import { nav, footer, contactInfo } from '../i18n/translations';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const locale = (Astro.currentLocale ?? 'fr') as Locale;
+const pathSegments = Astro.url.pathname.split('/').filter(Boolean).slice(1);
+const path = pathSegments.length ? '/' + pathSegments.join('/') + '/' : '/';
+
+const tNav = nav[locale];
+const tFooter = footer[locale];
+
+const site = Astro.site?.href?.replace(/\/$/, '') ?? 'https://www.somice.ch';
+const canonical = `${site}/${locale}${path === '/' ? '' : path}`;
+
+const locales = ['fr', 'de', 'en'] as const;
+const localeUrls = locales.map((loc) => ({
+  locale: loc,
+  url: `${site}/${loc}${path === '/' ? '' : path}`,
+}));
+--- 
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {localeUrls.map(({ locale: loc, url }) => (
+      <link rel="alternate" hreflang={loc} href={url} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${site}/fr${path === '/' ? '' : path}`} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="header">
+      <a href={`/${locale}/`} class="logo">SoMICE</a>
+      <nav class="nav" aria-label="Main">
+        <ul>
+          <li><a href={`/${locale}/`}>{tNav.home}</a></li>
+          <li class="has-sub">
+            <span>{tNav.services}</span>
+            <ul>
+              <li><a href={`/${locale}/prestations/`}>{tNav.services}</a></li>
+              <li><a href={`/${locale}/prestations/evenements-medicaux/`}>{tNav.medical}</a></li>
+              <li><a href={`/${locale}/prestations/evenements-entreprise/`}>{tNav.corporate}</a></li>
+            </ul>
+          </li>
+          <li><a href={`/${locale}/equipe/`}>{tNav.team}</a></li>
+          <li><a href={`/${locale}/15-ans/`}>{tNav.years}</a></li>
+          <li><a href={`/${locale}/referenzen/`}>{tNav.references}</a></li>
+          <li><a href={`/${locale}/contact/`}>{tNav.contact}</a></li>
+        </ul>
+      </nav>
+      <div class="lang-switch">
+        <a href={`/fr${path}`} aria-current={locale === 'fr' ? 'true' : undefined}>FR</a>
+        <a href={`/de${path}`} aria-current={locale === 'de' ? 'true' : undefined}>DE</a>
+        <a href={`/en${path}`} aria-current={locale === 'en' ? 'true' : undefined}>EN</a>
+      </div>
+    </header>
+    <main class="main">
+      <slot />
+    </main>
+    <footer class="footer">
+      <p class="tagline">{tFooter.tagline}</p>
+      <nav aria-label="Footer">
+        <h3>{tFooter.links}</h3>
+        <ul>
+          <li><a href={`/${locale}/`}>{tNav.home}</a></li>
+          <li><a href={`/${locale}/prestations/`}>{tNav.services}</a></li>
+          <li><a href={`/${locale}/equipe/`}>{tNav.team}</a></li>
+          <li><a href={`/${locale}/referenzen/`}>{tNav.references}</a></li>
+          <li><a href={`/${locale}/contact/`}>{tNav.contact}</a></li>
+        </ul>
+        <h3>{tFooter.contact}</h3>
+        <p>
+          SoMICE Sàrl<br />
+          {contactInfo.address}<br />
+          <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}>T. {contactInfo.phone}</a><br />
+          <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+        </p>
+        <p>
+          <a href={`/${locale}/mentions-legales/`}>{tFooter.legal}</a>
+          {' · '}
+          <a href={`/${locale}/confidentialite/`}>{tFooter.privacy}</a>
+        </p>
+        <p class="copyright">© 2010–{new Date().getFullYear()} {tFooter.copyright}</p>
+      </nav>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-text: #1a1a1a;
+    --color-bg: #fff;
+    --color-accent: #2563eb;
+    --color-muted: #64748b;
+    --font-sans: system-ui, -apple-system, sans-serif;
+    --space: 1rem;
+    --max-width: 72rem;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans); color: var(--color-text); background: var(--color-bg); line-height: 1.6; }
+  a { color: var(--color-accent); }
+  .header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: var(--space) 2rem; border-bottom: 1px solid #e2e8f0; }
+  .logo { font-weight: 700; font-size: 1.25rem; text-decoration: none; color: var(--color-text); }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; }
+  .nav a { text-decoration: none; color: var(--color-text); }
+  .nav .has-sub { position: relative; }
+  .nav .has-sub ul { position: absolute; top: 100%; left: 0; background: var(--color-bg); border: 1px solid #e2e8f0; padding: 0.5rem; min-width: 12rem; display: none; }
+  .nav .has-sub:hover ul { display: block; }
+  .lang-switch { display: flex; gap: 0.5rem; }
+  .lang-switch a { text-decoration: none; color: var(--color-muted); }
+  .lang-switch a[aria-current="true"] { font-weight: 700; color: var(--color-text); }
+  .main { max-width: var(--max-width); margin: 0 auto; padding: 2rem; min-height: 60vh; }
+  .footer { background: #f8fafc; padding: 2rem; margin-top: 3rem; }
+  .footer nav { max-width: var(--max-width); margin: 0 auto; }
+  .footer h3 { font-size: 1rem; margin: 1rem 0 0.5rem; }
+  .footer ul { list-style: none; padding: 0; margin: 0; }
+  .footer a { text-decoration: none; }
+  .tagline { font-size: 0.9rem; color: var(--color-muted); margin: 0 0 1rem; }
+  .copyright { font-size: 0.85rem; color: var(--color-muted); margin-top: 1.5rem; }
+</style>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { contactInfo } from '../../../i18n/translations';
+---
+
+<BaseLayout
+  title="Kontakt – SoMICE Sàrl"
+  description="SoMICE Sàrl in Lausanne kontaktieren. Telefon, E-Mail und Adresse für die Organisation Ihrer Events."
+>
+  <article>
+    <h1>Kontakt</h1>
+    <p>
+      <strong>SoMICE Sàrl</strong><br />
+      {contactInfo.address}
+    </p>
+    <p>
+      T. <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}>{contactInfo.phone}</a>
+    </p>
+    <p>
+      E-Mail: <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a><br />
+      Fournisseurs: <a href={`mailto:${contactInfo.emailSuppliers}`}>{contactInfo.emailSuppliers}</a>
+    </p>
+    <p>
+      Wir freuen uns auf Ihre Kontaktaufnahme.
+    </p>
+  </article>
+</BaseLayout>
