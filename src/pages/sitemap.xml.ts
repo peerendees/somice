@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 
-const site = 'https://www.somice.ch';
+// Nutzt bei Vercel-Build die VERCEL_URL; sonst PUBLIC_SITE_URL oder aktuellen Origin
+const site = import.meta.env.SITE || '';
 const locales = ['fr', 'de', 'en'];
 const paths = [
   '',

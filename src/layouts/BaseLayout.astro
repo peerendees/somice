@@ -15,7 +15,7 @@ const path = pathSegments.length ? '/' + pathSegments.join('/') + '/' : '/';
 const tNav = nav[locale];
 const tFooter = footer[locale];
 
-const site = Astro.site?.href?.replace(/\/$/, '') ?? 'https://www.somice.ch';
+const site = Astro.site?.href?.replace(/\/$/, '') ?? Astro.url?.origin ?? '';
 const canonical = `${site}/${locale}${path === '/' ? '' : path}`;
 
 const locales = ['fr', 'de', 'en'] as const;
