@@ -5,9 +5,11 @@ import { nav, footer, contactInfo } from '../i18n/translations';
 interface Props {
   title: string;
   description: string;
+  pageTitle?: string;
+  showHero?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, pageTitle, showHero = false } = Astro.props;
 const locale = (Astro.currentLocale ?? 'fr') as Locale;
 const pathSegments = Astro.url.pathname.split('/').filter(Boolean).slice(1);
 const path = pathSegments.length ? '/' + pathSegments.join('/') + '/' : '/';
@@ -35,11 +37,15 @@ const localeUrls = locales.map((loc) => ({
       <link rel="alternate" hreflang={loc} href={url} />
     ))}
     <link rel="alternate" hreflang="x-default" href={`${site}/fr${path === '/' ? '' : path}`} />
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link href="https://fonts.bunny.net/css?family=lato:900|raleway:300,400|roboto:400,700,900" rel="stylesheet" />
     <title>{title}</title>
   </head>
   <body>
     <header class="header">
-      <a href={`/${locale}/`} class="logo">SoMICE</a>
+      <a href={`/${locale}/`} class="logo">
+        <img src="https://www.somice.ch/gimg/150-90-off/Editor/logo-somice/logo-somice.png" alt="SoMICE Sàrl" width="150" height="90" />
+      </a>
       <nav class="nav" aria-label="Main">
         <ul>
           <li><a href={`/${locale}/`}>{tNav.home}</a></li>
@@ -63,6 +69,16 @@ const localeUrls = locales.map((loc) => ({
         <a href={`/en${path}`} aria-current={locale === 'en' ? 'true' : undefined}>EN</a>
       </div>
     </header>
+    {showHero && (
+      <div class="bandeau">
+        <img src="https://www.somice.ch/gimg/1600-460-off/editor/bandeau/bandeau.jpg" alt="" width="1600" height="460" />
+      </div>
+    )}
+    {pageTitle && (
+      <div class="container-h1">
+        <h1>{pageTitle}</h1>
+      </div>
+    )}
     <main class="main">
       <slot />
     </main>
@@ -92,38 +108,95 @@ const localeUrls = locales.map((loc) => ({
         <p class="copyright">© 2010–{new Date().getFullYear()} {tFooter.copyright}</p>
       </nav>
     </footer>
+    <div class="footer-pied">
+      <p>
+        <a href={`/${locale}/mentions-legales/`}>{tFooter.legal}</a>
+        {' | '}
+        <a href={`/${locale}/confidentialite/`}>{tFooter.privacy}</a>
+        {' | '}
+        <a href={`/${locale}/`}>SoMICE Sàrl</a>
+      </p>
+    </div>
   </body>
 </html>
 
 <style is:global>
+  /* SoMICE Corporate Design */
   :root {
-    --color-text: #1a1a1a;
-    --color-bg: #fff;
-    --color-accent: #2563eb;
-    --color-muted: #64748b;
-    --font-sans: system-ui, -apple-system, sans-serif;
-    --space: 1rem;
-    --max-width: 72rem;
+    --somice-green: #97bf0d;
+    --somice-brown: #6e423b;
+    --somice-dark: #3e2420;
+    --somice-text: #6e423b;
+    --font-sans: 'Roboto', system-ui, sans-serif;
+    --font-heading: 'Lato', sans-serif;
+    --max-width: 1100px;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: var(--font-sans); color: var(--color-text); background: var(--color-bg); line-height: 1.6; }
-  a { color: var(--color-accent); }
-  .header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: var(--space) 2rem; border-bottom: 1px solid #e2e8f0; }
-  .logo { font-weight: 700; font-size: 1.25rem; text-decoration: none; color: var(--color-text); }
-  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; }
-  .nav a { text-decoration: none; color: var(--color-text); }
+  body { margin: 0; font-family: var(--font-sans); font-weight: 400; font-size: 20px; color: var(--somice-text); background: #fff; line-height: 1.6; }
+  a { color: var(--somice-green); font-weight: 700; text-decoration: underline; transition: all 0.2s ease; }
+  a:hover { text-decoration: none; }
+  .texteVert { color: var(--somice-green) !important; }
+
+  /* Header */
+  .header {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    max-width: var(--max-width); margin: 0 auto; padding: 10px 65px 10px 0;
+  }
+  .logo { text-decoration: none; }
+  .logo img { display: block; height: auto; }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0; }
+  .nav > ul > li { margin: 0; }
+  .nav > ul > li > a,
+  .nav > ul > li > span { display: block; padding: 10px 15px; color: var(--somice-text); text-decoration: none; font-weight: 400; }
+  .nav > ul > li > a:hover { color: var(--somice-green); }
   .nav .has-sub { position: relative; }
-  .nav .has-sub ul { position: absolute; top: 100%; left: 0; background: var(--color-bg); border: 1px solid #e2e8f0; padding: 0.5rem; min-width: 12rem; display: none; }
-  .nav .has-sub:hover ul { display: block; }
-  .lang-switch { display: flex; gap: 0.5rem; }
-  .lang-switch a { text-decoration: none; color: var(--color-muted); }
-  .lang-switch a[aria-current="true"] { font-weight: 700; color: var(--color-text); }
-  .main { max-width: var(--max-width); margin: 0 auto; padding: 2rem; min-height: 60vh; }
-  .footer { background: #f8fafc; padding: 2rem; margin-top: 3rem; }
-  .footer nav { max-width: var(--max-width); margin: 0 auto; }
-  .footer h3 { font-size: 1rem; margin: 1rem 0 0.5rem; }
+  .nav .has-sub > ul { position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #ccc; padding: 0.5rem; min-width: 12rem; display: none; z-index: 100; }
+  .nav .has-sub:hover > ul { display: block; }
+  .nav .has-sub ul li a { color: var(--somice-text); }
+  .nav .has-sub ul li a:hover { color: var(--somice-green); }
+  .lang-switch { display: flex; gap: 0; background: var(--somice-green); color: #fff; padding: 0 30px 0 10px; height: 40px; align-items: center; border-radius: 4px; }
+  .lang-switch a { color: #fff !important; text-decoration: none !important; font-weight: 400; padding: 0 8px; }
+  .lang-switch a[aria-current="true"] { font-weight: 700; }
+  .lang-switch a:hover { opacity: 0.9; }
+
+  /* Hero / Bandeau */
+  .bandeau { width: 100%; margin: 0; padding: 0; }
+  .bandeau img { width: 100%; height: auto; display: block; vertical-align: top; }
+
+  /* H1 Bar */
+  .container-h1 { background: var(--somice-brown); margin: 0 0 40px 0; }
+  .container-h1 h1 { margin: 0; padding: 20px 65px; max-width: var(--max-width); margin-left: auto; margin-right: auto; color: #fff; font-family: var(--font-heading); font-size: 20px; font-weight: 900; text-transform: uppercase; }
+
+  /* Main */
+  .main { max-width: var(--max-width); margin: 0 auto; padding: 20px 65px 40px; min-height: 50vh; background: #fff; }
+  .main h2 { font-family: var(--font-heading); font-size: 20px; font-weight: 900; text-transform: uppercase; color: var(--somice-brown); margin: 1.5rem 0 0.5rem; }
+  .main h2:first-child { margin-top: 0; }
+  .main .btn { display: inline-block; background: var(--somice-brown); color: #fff !important; padding: 15px 30px; border-radius: 5px; text-decoration: none !important; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s ease; }
+  .main .btn:hover { background: #000; box-shadow: 0 0 8px rgba(0,0,0,0.5); }
+  .main ul:not(.nav ul):not(.lang-switch *) { padding-left: 1.5rem; }
+  .main ul.validation li { list-style: none; padding-left: 0; position: relative; padding-left: 28px; }
+  .main ul.validation li::before { content: '✓'; position: absolute; left: 0; color: var(--somice-green); font-weight: 700; }
+
+  /* Footer */
+  .footer { background: var(--somice-brown); padding: 30px 65px; margin-top: 0; }
+  .footer nav { max-width: var(--max-width); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 0 30px; }
+  .footer .tagline { color: rgba(255,255,255,0.9); font-size: 18px; margin: 0 0 20px; width: 100%; }
+  .footer h3 { font-size: 1rem; margin: 0 0 15px; color: #fff; font-weight: 700; }
   .footer ul { list-style: none; padding: 0; margin: 0; }
-  .footer a { text-decoration: none; }
-  .tagline { font-size: 0.9rem; color: var(--color-muted); margin: 0 0 1rem; }
-  .copyright { font-size: 0.85rem; color: var(--color-muted); margin-top: 1.5rem; }
+  .footer a { color: #fff !important; text-decoration: none !important; }
+  .footer a:hover { text-decoration: underline !important; }
+  .footer .copyright { font-size: 15px; color: #fff; margin-top: 20px; width: 100%; }
+  .footer-pied { background: var(--somice-dark); padding: 10px 65px; text-align: center; }
+  .footer-pied p { margin: 0; color: #fff; font-size: 15px; }
+  .footer-pied a { color: #fff !important; }
+
+  @media (max-width: 1100px) {
+    .header, .main, .footer { padding-left: 2%; padding-right: 2%; }
+    .container-h1 h1 { padding-left: 2%; padding-right: 2%; }
+  }
+  @media (max-width: 700px) {
+    .header { flex-direction: column; align-items: flex-start; }
+    .nav > ul { flex-direction: column; }
+    .lang-switch { margin-top: 10px; }
+  }
 </style>
