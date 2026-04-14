@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Schnellstart für SoMICE – BERENT.AI</title>
+<style>
+/* Lokal gehostete Fonts (DSGVO), latin + latin-ext — Lora als Variable Font 400–700 */
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/bebas-bebas-neue-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/bebas-bebas-neue-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(/fonts/jbm-jetbrains-mono-300-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(/fonts/jbm-jetbrains-mono-300-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/jbm-jetbrains-mono-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/jbm-jetbrains-mono-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/jbm-jetbrains-mono-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/jbm-jetbrains-mono-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(/fonts/lora-lora-400700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(/fonts/lora-lora-400700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --bg: #090806;
+  --card: #110e0a;
+  --border: #2a2118;
+  --copper: #B5742A;
+  --gold: #E8C98A;
+  --text: #C4BCB1;
+  --muted: #7A6A58;
+  --muted2: #9a8870;
+  --champagne: #F5EFE4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  display: flex; align-items: center; gap: .75rem;
+  background: rgba(9,8,6,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.plus-mark {
+  width: 16px; height: 16px;
+  position: relative; flex-shrink: 0;
+}
+.plus-mark::before,
+.plus-mark::after {
+  content: '';
+  position: absolute;
+  background: var(--gold);
+  border-radius: 1px;
+}
+.plus-mark::before { width: 2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+.plus-mark::after  { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
+nav a {
+  text-decoration: none; color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem; font-weight: 300;
+  letter-spacing: .06em;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 8rem 2rem 4rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.hero-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  color: var(--copper);
+  letter-spacing: .06em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.hero h1 span { color: var(--gold); }
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--muted2);
+  max-width: 640px;
+  line-height: 1.8;
+}
+
+/* ── SECTION ── */
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+.section-divider {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 3.5rem 0 2rem;
+}
+.section-divider .line { flex: 1; height: 1px; background: var(--border); }
+.section-divider .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  color: var(--muted);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: var(--copper);
+  letter-spacing: .05em;
+  margin-bottom: .75rem;
+}
+h3 {
+  font-family: 'Lora', serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--gold);
+  margin-bottom: .5rem;
+}
+
+p { margin-bottom: 1rem; }
+p.muted { color: var(--muted2); font-size: .95rem; }
+
+/* ── CARDS ── */
+.use-case-grid {
+  display: flex; flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.use-case {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color .3s;
+}
+.use-case:hover { border-color: var(--copper); }
+
+.use-case-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+.use-case-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: var(--copper);
+  letter-spacing: .04em;
+  line-height: 1;
+  min-width: 2.2rem;
+}
+.use-case-title {
+  font-family: 'Lora', serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+  flex: 1;
+}
+.use-case-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  color: var(--copper);
+  border: 1px solid var(--copper);
+  padding: .15rem .5rem;
+  border-radius: 3px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.use-case-chevron {
+  color: var(--muted);
+  font-size: 1.2rem;
+  transition: transform .3s;
+  font-family: sans-serif;
+}
+.use-case.open .use-case-chevron { transform: rotate(90deg); }
+
+.use-case-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease;
+}
+.use-case.open .use-case-body {
+  max-height: 800px;
+}
+.use-case-inner {
+  padding: 0 1.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+@media (max-width: 640px) {
+  .use-case-inner { grid-template-columns: 1fr; }
+}
+
+.uc-block {
+  padding: 1rem;
+  border-radius: 4px;
+}
+.uc-block.problem {
+  background: rgba(181,116,42,.06);
+  border-left: 3px solid var(--copper);
+}
+.uc-block.quickwin {
+  background: rgba(232,201,138,.06);
+  border-left: 3px solid var(--gold);
+}
+.uc-block-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  color: var(--muted);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.uc-block p {
+  font-size: .9rem;
+  line-height: 1.7;
+  margin-bottom: .5rem;
+}
+.uc-block p:last-child { margin-bottom: 0; }
+
+.uc-outlook {
+  grid-column: 1 / -1;
+  padding: .75rem 1rem;
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  font-size: .85rem;
+  color: var(--muted2);
+  line-height: 1.6;
+}
+.uc-outlook strong {
+  color: var(--copper);
+  font-weight: 600;
+}
+
+/* ── CONTEXT BOX ── */
+.context-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+.context-box p {
+  font-size: .9rem;
+  margin-bottom: .75rem;
+}
+.context-box p:last-child { margin-bottom: 0; }
+
+/* ── KPI STRIP ── */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+@media (max-width: 640px) {
+  .kpi-strip { grid-template-columns: 1fr; }
+}
+.kpi {
+  text-align: center;
+  padding: 1.25rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.kpi-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  color: var(--copper);
+  letter-spacing: .04em;
+  line-height: 1.1;
+}
+.kpi-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-top: .35rem;
+}
+
+/* ── TIMELINE ── */
+.timeline {
+  position: relative;
+  margin: 2rem 0;
+  padding-left: 2rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: .4rem; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+.timeline-item::before {
+  content: '+';
+  position: absolute;
+  left: -2rem; top: .15rem;
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  color: var(--gold);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  z-index: 1;
+}
+.timeline-phase {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  color: var(--copper);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: .25rem;
+}
+.timeline-item h3 { margin-bottom: .25rem; }
+.timeline-item p { font-size: .9rem; color: var(--muted2); }
+
+/* ── FOOTER ── */
+footer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+footer .footer-brand {
+  display: flex; align-items: center; gap: .5rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  color: var(--text);
+  letter-spacing: .06em;
+}
+footer span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  color: var(--muted);
+  letter-spacing: .06em;
+  margin-left: auto;
+}
+footer a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: .04em;
+}
+footer a:hover { color: var(--copper); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://berent.ai" aria-label="BERENT.AI" style="display:flex;align-items:center;gap:.75rem;">
+    <div class="plus-mark"></div>
+    <span>BERENT.AI</span>
+  </a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-label">Konzeptentwurf · April 2026 · Vertraulich</div>
+  <h1>KI-SCHNELLSTART FÜR SOMICE<br><span>+</span> 5 ANWENDUNGSFÄLLE MIT QUICK WINS</h1>
+  <p class="hero-sub">
+    Auf der Grundlage unseres Gesprächs vom 13. März 2026 und der internen Team-Abstimmung bei SoMICE. Fünf priorisierte Anwendungsfälle mit sofort umsetzbaren Massnahmen – und einem Ausblick, was mit strategischer Begleitung darüber hinaus möglich wird.
+  </p>
+</section>
+
+<div class="content">
+
+  <!-- ═══ AUSGANGSLAGE ═══ -->
+  <div class="section-divider">
+    <span class="line"></span>
+    <span class="label">Ausgangslage</span>
+    <span class="line"></span>
+  </div>
+
+  <p>
+    SoMICE arbeitet als mehrsprachige MICE-Agentur mit 21 Mitarbeitern in einem anspruchsvollen Umfeld: medizinische Fachkongresse, Pharma-Kunden, vier Arbeitssprachen, hohe Vertraulichkeitsanforderungen. KI wird bereits punktuell eingesetzt – Microsoft Copilot für Zusammenfassungen und E-Mails, TipL für die Korrespondenz. Die Geschäftsführung hat ein konkretes Ziel formuliert: jeder Mitarbeiter soll circa zwei Stunden pro Monat einsparen.
+  </p>
+  <p>
+    Das Team hat in einem Brainstorming Anwendungsfälle gesammelt, priorisiert und abgestimmt. Die fünf Themen mit den meisten Stimmen bilden die Grundlage dieses Entwurfs.
+  </p>
+
+  <div class="kpi-strip">
+    <div class="kpi">
+      <div class="kpi-value">~42 h</div>
+      <div class="kpi-label">Einsparpotenzial / Monat</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">4</div>
+      <div class="kpi-label">Arbeitssprachen</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">5</div>
+      <div class="kpi-label">Priorisierte Use Cases</div>
+    </div>
+  </div>
+
+  <!-- ═══ USE CASES ═══ -->
+  <div class="section-divider">
+    <span class="line"></span>
+    <span class="label">Die 5 Anwendungsfälle</span>
+    <span class="line"></span>
+  </div>
+
+  <p class="muted">Jede Karte zeigt das Problem, einen sofort umsetzbaren Quick Win und den strategischen Ausblick. Die Quick Wins funktionieren ohne externe Begleitung.</p>
+
+  <div class="use-case-grid">
+
+    <!-- UC 1 -->
+    <div class="use-case open">
+      <div class="use-case-header" onclick="toggleUC(this)">
+        <span class="use-case-num">01</span>
+        <span class="use-case-title">Sitzungsprotokolle und Meeting-Nachbereitung</span>
+        <span class="use-case-tag">Quick Win</span>
+        <span class="use-case-chevron">›</span>
+      </div>
+      <div class="use-case-body">
+        <div class="use-case-inner">
+          <div class="uc-block problem">
+            <div class="uc-block-label">Situation heute</div>
+            <p>Die Assistentin schreibt bei Team-Meetings und Kundenbesprechungen manuell mit. Das Ergebnis ist abhängig von der Person, oft unvollständig, und die Nachbereitung dauert zusätzlich. Bei mehrsprachigen Meetings geht Kontext verloren.</p>
+          </div>
+          <div class="uc-block quickwin">
+            <div class="uc-block-label">Quick Win – sofort umsetzbar</div>
+            <p><strong>Copilot in Teams aktivieren:</strong> In euren Teams-Meetings die Aufzeichnung und Copilot-Zusammenfassung einschalten. Das erzeugt automatisch ein Basisprotokoll – ohne zusätzliche Kosten, da ihr die Lizenz bereits habt.</p>
+            <p><strong>Geschätzter Zeitgewinn:</strong> 30–60 Min. pro Woche für die Protokollantin.</p>
+          </div>
+          <div class="uc-outlook">
+            <strong>Strategischer Ausblick:</strong> Ein spezialisiertes Meeting-Assistenztool wie Hedy geht deutlich weiter – Echtzeit-Highlights, kontextbezogene Analyse, mehrsprachige Transkription (FR/DE/EN/IT) und strukturierte Exporte als Präsentation oder PDF. Besonders bei Kundengesprächen und physischen Vor-Ort-Meetings, die nicht über Teams laufen, entfaltet es sein volles Potenzial.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UC 2 -->
+    <div class="use-case">
+      <div class="use-case-header" onclick="toggleUC(this)">
+        <span class="use-case-num">02</span>
+        <span class="use-case-title">Mehrsprachige E-Mail-Korrespondenz</span>
+        <span class="use-case-tag">Quick Win</span>
+        <span class="use-case-chevron">›</span>
+      </div>
+      <div class="use-case-body">
+        <div class="use-case-inner">
+          <div class="uc-block problem">
+            <div class="uc-block-label">Situation heute</div>
+            <p>Das Team schreibt täglich E-Mails in vier Sprachen. Die Formulierung in einer Fremdsprache kostet Zeit und Unsicherheit – besonders bei Kunden aus Pharma, wo Wortwahl und Tonalität sensibel sind. TipL wird bereits genutzt, aber nicht systematisch.</p>
+          </div>
+          <div class="uc-block quickwin">
+            <div class="uc-block-label">Quick Win – sofort umsetzbar</div>
+            <p><strong>Dreistufiger E-Mail-Workflow einführen:</strong> (1) E-Mail auf Französisch verfassen, (2) Copilot oder ChatGPT den Entwurf in die Zielsprache übersetzen und anpassen lassen, (3) kurze Prüfung durch den Mitarbeiter. Als Team-Konvention festlegen und im nächsten Meeting vorstellen.</p>
+            <p><strong>Geschätzter Zeitgewinn:</strong> 15–20 Min. pro Mitarbeiter pro Tag.</p>
+          </div>
+          <div class="uc-outlook">
+            <strong>Strategischer Ausblick:</strong> Mit einer KI-Nutzungsrichtlinie, die auch Tonalität und Pharma-spezifische Formulierungen abdeckt, wird der Workflow verbindlich. Langfristig lassen sich wiederkehrende E-Mail-Typen als Vorlagen hinterlegen, die nur noch angepasst werden müssen.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UC 3 -->
+    <div class="use-case">
+      <div class="use-case-header" onclick="toggleUC(this)">
+        <span class="use-case-num">03</span>
+        <span class="use-case-title">Übersetzungen und Sprachversionen</span>
+        <span class="use-case-tag">Quick Win</span>
+        <span class="use-case-chevron">›</span>
+      </div>
+      <div class="use-case-body">
+        <div class="use-case-inner">
+          <div class="uc-block problem">
+            <div class="uc-block-label">Situation heute</div>
+            <p>Einladungen, Teilnehmerinformationen, Kongressprogramme und Korrespondenz müssen regelmässig in mehreren Sprachversionen erstellt werden. Das passiert manuell und ist fehleranfällig – besonders bei Fachbegriffen im medizinischen Umfeld.</p>
+          </div>
+          <div class="uc-block quickwin">
+            <div class="uc-block-label">Quick Win – sofort umsetzbar</div>
+            <p><strong>DeepL Pro als Team-Werkzeug einführen:</strong> DeepL liefert bei DE/FR/EN/IT die zuverlässigsten Ergebnisse und bietet mit Glossaren die Möglichkeit, medizinische Fachbegriffe konsistent zu übersetzen. Kostet ca. 25 CHF/Monat pro Nutzer.</p>
+            <p><strong>Geschätzter Zeitgewinn:</strong> 20–40 Min. pro Übersetzungsvorgang.</p>
+          </div>
+          <div class="uc-outlook">
+            <strong>Strategischer Ausblick:</strong> Ein firmeneigenes Glossar mit medizinischen und branchenspezifischen Begriffen (DE/FR/EN/IT) macht Übersetzungen nicht nur schneller, sondern auch qualitativ einheitlich – ein Argument gegenüber Pharma-Auftraggebern, die Wert auf terminologische Konsistenz legen.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UC 4 -->
+    <div class="use-case">
+      <div class="use-case-header" onclick="toggleUC(this)">
+        <span class="use-case-num">04</span>
+        <span class="use-case-title">Angebotserstellung und Offertvorlagen</span>
+        <span class="use-case-tag">Welle 2</span>
+        <span class="use-case-chevron">›</span>
+      </div>
+      <div class="use-case-body">
+        <div class="use-case-inner">
+          <div class="uc-block problem">
+            <div class="uc-block-label">Situation heute</div>
+            <p>Angebote werden aus bestehenden Vorlagen zusammengesetzt, individuell angepasst und oft in mehreren Iterationen überarbeitet. Der Aufwand variiert stark, und es fehlt eine systematische Wiederverwendung guter Textbausteine.</p>
+          </div>
+          <div class="uc-block quickwin">
+            <div class="uc-block-label">Quick Win – sofort umsetzbar</div>
+            <p><strong>Prompt-Vorlage für Angebotstexte:</strong> Erstellt gemeinsam einen Copilot-Prompt, der Event-Typ, Teilnehmerzahl, Besonderheiten und gewünschten Ton als Eingabe nimmt und einen Angebotsentwurf generiert. Beginnt mit einem konkreten Angebotstyp (z.B. Incentive-Reise) und erweitert schrittweise.</p>
+            <p><strong>Geschätzter Zeitgewinn:</strong> 30–45 Min. pro Angebot.</p>
+          </div>
+          <div class="uc-outlook">
+            <strong>Strategischer Ausblick:</strong> Eine strukturierte Prompt-Bibliothek mit erprobten Vorlagen für verschiedene Event-Typen wird zum Wissensschatz des Unternehmens. Neue Mitarbeiter können damit schneller qualitativ hochwertige Angebote erstellen – das Wissen bleibt nicht in den Köpfen einzelner Personen.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UC 5 -->
+    <div class="use-case">
+      <div class="use-case-header" onclick="toggleUC(this)">
+        <span class="use-case-num">05</span>
+        <span class="use-case-title">Recherche: Hotels, Venues, Dienstleister</span>
+        <span class="use-case-tag">Welle 2</span>
+        <span class="use-case-chevron">›</span>
+      </div>
+      <div class="use-case-body">
+        <div class="use-case-inner">
+          <div class="uc-block problem">
+            <div class="uc-block-label">Situation heute</div>
+            <p>Die Suche nach Hotels, Tagungsorten und Dienstleistern geschieht über Suchmaschinen, persönliche Kontakte und Erfahrungswerte. Die Ergebnisse werden manuell zusammengetragen und verglichen – ein zeitintensiver Prozess, der bei jedem neuen Projekt von vorn beginnt.</p>
+          </div>
+          <div class="uc-block quickwin">
+            <div class="uc-block-label">Quick Win – sofort umsetzbar</div>
+            <p><strong>KI-gestützte Vorrecherche:</strong> Copilot oder ChatGPT mit einem strukturierten Prompt beauftragen – z.B. „Liste 10 Hotels in [Stadt], 4 Sterne, Konferenzräume für 50 Personen, halal-fähige Küche, max. 15 Min. vom Flughafen." Das Ergebnis dann manuell verifizieren.</p>
+            <p><strong>Geschätzter Zeitgewinn:</strong> 20–30 Min. pro Recherche.</p>
+          </div>
+          <div class="uc-outlook">
+            <strong>Strategischer Ausblick:</strong> Eine interne Wissensdatenbank mit bewerteten Venues, Dienstleistern und Erfahrungswerten aus vergangenen Events – durchsuchbar, strukturiert und KI-gestützt ergänzbar. Das ist ein echter Wettbewerbsvorteil: schnellere Angebotserstellung, bessere Empfehlungen, zufriedenere Auftraggeber.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /use-case-grid -->
+
+  <!-- ═══ LEITPLANKEN ═══ -->
+  <div class="section-divider">
+    <span class="line"></span>
+    <span class="label">Rahmenbedingungen</span>
+    <span class="line"></span>
+  </div>
+
+  <div class="context-box">
+    <h3>Datenschutz und Compliance</h3>
+    <p>SoMICE arbeitet mit vertraulichen Daten von Pharma-Kunden. Jedes KI-Werkzeug muss deshalb vor dem Einsatz geprüft werden: Wo werden Daten verarbeitet? Werden Eingaben zum Training verwendet? Gibt es eine europäische Serveroption? Tools wie DeepL Pro, Copilot (in der M365-Umgebung) und Hedy (lokale Transkription, EU-Serverwahl) erfüllen diese Anforderungen grundsätzlich – aber die Grenzen müssen in einer KI-Nutzungsrichtlinie dokumentiert sein.</p>
+    <p style="color:var(--muted2);">Empfehlung: Vor dem Einsatz eines neuen Tools klären, ob es dem Schweizer Datenschutzgesetz (DSG) und den Anforderungen eurer Pharma-Auftraggeber entspricht.</p>
+  </div>
+
+  <div class="context-box" style="margin-top:1rem;">
+    <h3>Halbautomatisierung als Leitprinzip</h3>
+    <p>Myriam hat im Gespräch ein wichtiges Prinzip formuliert: KI soll unterstützen, nicht ersetzen. Vollautomatische Agenten, die eigenständig E-Mails versenden oder Entscheidungen treffen, sind für die aktuelle Unternehmenskultur zu früh. Die richtige Haltung: KI liefert Entwürfe, Vorschläge und Vorarbeit – der Mensch prüft, entscheidet und gibt frei.</p>
+  </div>
+
+  <!-- ═══ ZEITPLAN ═══ -->
+  <div class="section-divider">
+    <span class="line"></span>
+    <span class="label">Möglicher Fahrplan</span>
+    <span class="line"></span>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-phase">Welle 1 · April / Mai 2026</div>
+      <h3>Quick Wins aktivieren</h3>
+      <p>Copilot-Protokolle in Teams einschalten. E-Mail-Workflow als Team-Konvention. DeepL Pro testen. Keine externen Kosten ausser DeepL-Lizenzen.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">Welle 2 · Juni / Juli 2026</div>
+      <h3>Prozesse standardisieren</h3>
+      <p>Prompt-Vorlagen für Angebote und Recherche entwickeln. KI-Nutzungsrichtlinie verabschieden. Schulung des Teams auf Französisch.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">Welle 3 · Ab Herbst 2026</div>
+      <h3>Strategische Verankerung</h3>
+      <p>Meeting-Assistenz professionalisieren. Wissensdatenbank aufbauen. Qualitätsargument gegenüber Auftraggebern formulieren: KI macht euch nicht günstiger – sie macht euch besser und schneller.</p>
+    </div>
+  </div>
+
+  <!-- ═══ SCHLUSSWORT ═══ -->
+  <div class="section-divider">
+    <span class="line"></span>
+    <span class="label">Ein Gedanke zum Schluss</span>
+    <span class="line"></span>
+  </div>
+
+  <p>
+    Die Quick Wins in diesem Dokument funktionieren ohne externe Begleitung. Sie sind der Einstieg – und sie werden Wirkung zeigen. Was sie nicht leisten können: eine systematische Strategie, die alle Anwendungsfälle verbindet, Leitplanken definiert, das Team mitnimmt und die Qualitätsargumentation gegenüber euren Auftraggebern vorbereitet.
+  </p>
+  <p>
+    Das ist der Punkt, an dem strategische Begleitung einen Unterschied macht. Nicht als zusätzliches Projekt, sondern als Rahmen, in dem die kleinen Schritte eine Richtung bekommen.
+  </p>
+  <p style="color:var(--muted2); margin-top:1.5rem;">
+    Dieses Dokument ist ein Entwurf auf Grundlage unseres Gesprächs. Es ersetzt keine vollständige Strategieberatung – es zeigt, was auf der Grundlage eines einzigen Gesprächs möglich ist.
+  </p>
+
+</div>
+
+<footer>
+  <div class="footer-brand">
+    <div class="plus-mark"></div>
+    BERENT
+  </div>
+  <span>KI-Schnellstart SoMICE · berent.ai</span>
+</footer>
+
+<script>
+function toggleUC(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
